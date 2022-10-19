@@ -16,20 +16,20 @@ def dbClose():
     conn.close()
 
 # 테이블 생성
-def createTable():
-    print('[Start] create table')
-    query = 'create table if not exists attendance ('
-    query = query + 'id integer primary key autoincrement,'
-    query = query + 'name text,'
-    query = query + 'create_dt text,'
-    query = query + 'update_dt text'
-    query = query + ')'
-    print('\tQuery : '+query)
+def createAttendanceTable():
+    # print('[Start] create table')
+    query =  'create table if not exists attendance ('
+    query += 'id integer primary key autoincrement,'
+    query += 'name text,'
+    query += 'create_dt text,'
+    query += 'update_dt text'
+    query += ')'
+    # print('\tQuery : '+query)
     conn.execute(query)
-    print('[End] create table')
+    # print('[End] create table')
 
 # 테이블 드랍(삭제)
-def dropTable():
+def dropAttendanceTable():
     # 테이블이 있을 경우, 드랍
     print('[Start] drop table')
     
@@ -48,7 +48,7 @@ def insertAttendance(name):
     print('[Start] insert table')
     query = "INSERT INTO attendance (name, create_dt)VALUES ('"+ name +"', '"+ commonutil.getNowDate() +"')"
     print('\tQuery : '+ query)
-    cur.execute("INSERT INTO attendance (name, create_dt)VALUES ('"+ name +"', '"+ commonutil.getNowDate() +"')")
+    cur.execute(query)
     
     '''
     # 한번에 여러개의 행을 입력하고 싶을때...
@@ -66,18 +66,18 @@ def insertAttendance(name):
 
 # 출석 데이터 수정(쓸일이 있을려나)
 def updateAttendance(id, name):
-    print('[Start] update table')
+    # print('[Start] update table')
     query = "update attendance set name='"+ name +"', update_dt='"+ commonutil.getNowDate() +"' where id="+ str(id)
-    print('\tQuery : '+ query)
+    # print('\tQuery : '+ query)
     cur.execute(query)
     # db 저장
     conn.commit
-    print('[End] update table')
+    # print('[End] update table')
     
 # 모든 출석 데이터 들고 오기
-def selectAll():
+def selectAttendanceAll():
     query = "SELECT * FROM attendance"
-    cur.execute("SELECT * FROM attendance")
+    cur.execute(query)
     print('\tQuery : '+ query)
     rows = cur.fetchall()
 
@@ -91,14 +91,54 @@ def selectAll():
         print(row)
     '''
 
-# test
-def execute():
+# 하나의 출석 데이터 들고오기
+# ex> (1, 'kjh', '2022-10-19 09:32:28', None)
+def selectAttendanceOne(name, dateYmd):
+    query = "SELECT * "
+    query += "FROM attendance "
+    query += "WHERE 1=1 "
+    query += "AND name='"+ name +"'"
+    query += "AND date(create_dt)='"+ dateYmd +"'"
+
+    cur.execute(query)
+    print('\tQuery : '+ query)
+    row = cur.fetchone()
+    # print(row)
+
+    return row
+
+# 이미 출석했는지 확인
+def isAttended(name, dateYmd):
+    # 출석 대상을 먼저 검색
+    tplRow = selectAttendanceOne(name, dateYmd)
+
+    # 출석 대상이 있으면?
+    if tplRow != None:
+        # 출석 대상 있으면
+        return True
+    else:
+        # 없다면 리턴
+        return False
+
+# 출석시키기
+def attend(name, dt):
     dbOpen()
-    dropTable()
-    createTable()
-    insertAttendance("kjh")
-    updateAttendance(1, "hgd")
-    selectAll()
+
+    # 출석 여부 판별
+    if isAttended(name, dt) == False:
+        # db에 넣기
+        insertAttendance(name)
+    else :
+        raise Exception('Alreay exist in today')
+
     dbClose()
 
-execute()
+# test
+def test():
+    dbOpen()
+    dropAttendanceTable()
+    createAttendanceTable()
+    insertAttendance("kjh")
+    # updateAttendance(1, "hgd")
+    selectAttendanceOne('kjh', '2022-10-19')
+    dbClose()

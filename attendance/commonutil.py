@@ -18,3 +18,13 @@ def getNowDate():
 
     return formattedDate
 
+# 현재 시간 가져오기 - ex> 2022-10-19
+def getNowDateYmd():
+    # 현재시간
+    now = datetime.datetime.now()
+    # 날짜 형식 지정
+    dateFormat = "%Y-%m-%d"
+    formattedDate = now.strftime(dateFormat)
+
+    return formattedDate
+
