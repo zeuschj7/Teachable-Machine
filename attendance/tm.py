@@ -39,9 +39,9 @@ def processingCam():
         # Resize the raw image into (224-height,224-width) pixels.
         image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
-        # image = cv2.resize(image,dsize=None,fx=1.0,fy=1.0)
+        imageTemp = cv2.resize(image,dsize=None,fx=1.0,fy=1.0)
         # 그레이 스케일 변환
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(imageTemp, cv2.COLOR_BGR2GRAY)
         # cascade 얼굴 탐지 알고리즘 
         results = cascade.detectMultiScale(gray,            # 입력 이미지
                                         scaleFactor= 1.5,# 이미지 피라미드 스케일 factor
