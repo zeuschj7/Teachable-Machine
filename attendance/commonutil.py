@@ -5,7 +5,8 @@ import datetime
 
 # 프로젝트 파일 경로 - 루트 폴더 
 def getRootPath():
-    rootPath = "I:/AI/kjh/dev/python/src/attendance";
+    # input your project path
+    rootPath = "I:/AI/kjh/dev/python/src/Teachable-Machine/attendance"
     return rootPath
 
 # 현재 시간 가져오기 - ex> 2022-10-14 09:32:15

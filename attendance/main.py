@@ -3,7 +3,11 @@ import sqlite_ex as db
 import commonutil
 
 print('###################################################')
-print('### Start ImageProcessing with Teachable Machine')
+print('### [Start] ImageProcessing with Teachable Machine')
 print('###################################################')
 
-tm.processingCam()
+def main():
+    tm.processingCam()
+
+if __name__ == '__main__':
+    main()
