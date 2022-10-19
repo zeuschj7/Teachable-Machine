@@ -126,7 +126,7 @@ def isAttended(name, dateYmd):
         return False
 
 # 출석시키기
-def attend(name, dt):
+def doAttend(name, dt):
     dbOpen()
 
     # 출석 여부 판별
