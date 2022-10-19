@@ -1,11 +1,15 @@
+###############################################
+# TM(TeachableMachine) 관련 및 화면 처리 파일
+###############################################
 import cv2
 import numpy as np
 from keras.models import load_model
 
 import time
 import commonutil
-import sqlite_ex as db
+import db
 
+# 웹캠에서 받은 이미지 처리
 def processingCam():
     # Load the model
     model = load_model(commonutil.getRootPath() +'/asset/model/keras_model.h5')

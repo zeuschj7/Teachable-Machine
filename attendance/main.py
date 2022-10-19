@@ -1,5 +1,8 @@
-import tm_realtime as tm
-import sqlite_ex as db
+##########################
+# 프로그램 시작 파일
+##########################
+import tm
+import db
 import commonutil
 
 print('###################################################')

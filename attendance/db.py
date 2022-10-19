@@ -1,6 +1,11 @@
+#######################
+# DB 관련 처리 파일
+#######################
 import sqlite3
 import pandas as pd
 import commonutil
+
+# DB 관련 파일
 
 # db 열기
 def dbOpen():
